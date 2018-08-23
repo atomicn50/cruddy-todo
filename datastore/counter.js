@@ -40,14 +40,10 @@ const writeCounter = (count, callback) => {
 
 exports.getNextUniqueId = (callback) => {
   readCounter(function(err, num) {
-    writeCounter(num + 1, (err, num) => {
-      callback(err, num);
+    writeCounter(num + 1, (err, id) => {
+      callback(err, id);
     });
   });
-  // return zeroPaddedNumber(counter);
-  // writeCounter(counter, callback);
-  // counter = counter + 1;
-  // return zeroPaddedNumber(counter);
 };
 
 
