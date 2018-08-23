@@ -11,6 +11,7 @@ exports.create = (text, callback) => {
   counter.getNextUniqueId((err, data) => {
     // console.log(data);
     fs.writeFileSync(exports.dataDir + '/' + data + '.txt', text);
+    fs.writeFile(__dirname + '/data' + '/' + data + '.txt', text);
     items[data] = {id: data, text: text};
     callback(err, items[data]);
   });
@@ -51,11 +52,13 @@ exports.update = (id, text, callback) => {
 exports.delete = (id, callback) => {
   var item = items[id];
   delete items[id];
-  if(!item) {
+  
+  if (!item) {
     // report an error if item not found
-    callback(new Error(`No item with id: ${id}`))
+    callback(new Error(`No item with id: ${id}`));
   } else {
-    callback();
+    fs.unlinkSync(exports.dataDir + '/' + id + '.txt');
+    callback(null);
   }
 };
 
