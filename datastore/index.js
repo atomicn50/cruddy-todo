@@ -8,9 +8,15 @@ var items = {};
 // Public API - Fix these CRUD functions ///////////////////////////////////////
 
 exports.create = (text, callback) => {
-  var id = counter.getNextUniqueId();
-  items[id] = text;
-  callback(null, {id: id, text: text});
+  var id;
+  counter.getNextUniqueId((err, data) => {
+    id = data;
+    callback(err, data)
+  });
+ console.log(id, text)
+  fs.writeFile(exports.dataDir + '/' + id + '.txt', text);
+  // fs.writeFile(__dirname + '/data' + '/' + id + '.txt', text);
+  //callback(null, {id: id, text: text});
 };
 
 exports.readOne = (id, callback) => {
@@ -24,8 +30,8 @@ exports.readOne = (id, callback) => {
 
 exports.readAll = (callback) => {
   var data = [];
-  _.each(items, (item, idx) => {
-    data.push({ id: idx, text: items[idx] });
+  _.each(fs.readdirSync(exports.dataDir), (item, idx) => {
+    data.push({ id: idx, text: item });
   });
   callback(null, data);
 };
