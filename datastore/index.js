@@ -60,9 +60,13 @@ exports.update = (id, text, callback) => {
   if (!item) {
     callback(new Error(`No item with id: ${id}`));
   } else {
-    fs.writeFileSync(exports.dataDir + '/' + id + '.txt', text);
-    items[id].text = text;
-    callback(null, {id: id, text: text});
+    fs.writeFile(exports.dataDir + '/' + id + '.txt', text, (err) =>{
+      if (err) {
+        throw ('error');
+      }
+      items[id].text = text;
+      callback(null, {id: id, text: text});
+    });
   }
 };
 
@@ -74,8 +78,9 @@ exports.delete = (id, callback) => {
     // report an error if item not found
     callback(new Error(`No item with id: ${id}`));
   } else {
-    fs.unlinkSync(exports.dataDir + '/' + id + '.txt');
-    callback(null);
+    fs.unlink(exports.dataDir + '/' + id + '.txt', (err) => {
+      callback(null);
+    });
   }
 };
 
