@@ -53,6 +53,24 @@ exports.readAll = (callback) => {
     Promise.all(data)
       .then(items => callback(null, items), err => callback(err));
   });
+
+  // fs.readdir(exports.dataDir, (err, files) => {
+  //   if (err) {
+  //     throw ('error reading data folder');
+  //   }
+  //   var data = _.map(files, (file) => {
+  //     var id = path.basename(file, '.txt');
+  //     var filepath = path.join(exports.dataDir, file);
+  //     return {
+  //       id:id,
+  //       text: fs.readFileSync(filepath).toString()
+  //     };
+  //   });
+  //   console.log('AAAAAAAAAAAA')
+  //   callback(null, data);
+  //   console.log('CCCCCCCCCCCCCC')
+  // });
+  // console.log('BBBBBBBBBBBBBBB')
 };
 
 exports.update = (id, text, callback) => {
